@@ -5,24 +5,30 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
+
+    private var tvResult: TextView? = null
+    private val buttonsList = mutableListOf<Button>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button = findViewById<Button>(R.id.btn_7)
-        button.setOnClickListener {
-            Log.d("Calc", "btn 7 pressed")
-        }
+        tvResult = findViewById(R.id.tv_result)
 
-        val button8 = findViewById<Button>(R.id.btn_8)
-        button8.setOnClickListener {
-            Log.e("Calc", "btn 8 pressed")
-            val toast = Toast.makeText(this, "Btn 8 was pressed", Toast.LENGTH_LONG)
-            toast.show()
+        val btnIds = listOf<Int>(
+           R.id.btn_0,
+           R.id.btn_1,
+           R.id.btn_2,
+           R.id.btn_dec
+        )
+
+        btnIds.forEach { btnId ->
+            val button = findViewById<Button>(btnId)
+            this.buttonsList.add(button)
         }
     }
 
