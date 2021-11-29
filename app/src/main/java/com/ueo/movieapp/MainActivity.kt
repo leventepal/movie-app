@@ -13,6 +13,11 @@ class MainActivity : AppCompatActivity() {
     private var tvResult: TextView? = null
     private val buttonsList = mutableListOf<Button>()
     private val buttonFunctions = mutableListOf<Button>()
+    private var lastFunction: Functions? = null
+
+    companion object {
+        private const val TAG = "MovieApp"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onNumberClick(button: Button) {
         // .getText() or .text are identical
-        Log.d("MovieApp", "Button pressed: ${button.text}")
+        Log.d(TAG, "Button pressed: ${button.text}")
 
         val value: String = button.text.toString()
         this.tvResult?.let { tvResult ->
@@ -74,7 +79,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onFunctionClicked(button: Button) {
-        Log.d("MovieApp", "Function button clicked: ${button.text}")
+        Log.d(TAG, "Function button clicked: ${button.text}")
+
+        this.lastFunction = when (button.id) {
+            R.id.btn_mult -> Functions.MULTIPLY
+                R.id.btn_subs -> Functions.SUBTRACT
+                R.id.btn_sum -> Functions.SUM
+                R.id.btn_result -> Functions.EQUAL
+                else -> null
+        }
+
+        Log.d(TAG, "Last function is: $lastFunction")
     }
 
     private fun sum(leftValue: Int, rightValue: Int): Int {
