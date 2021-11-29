@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private val buttonsList = mutableListOf<Button>()
     private val buttonFunctions = mutableListOf<Button>()
     private var lastFunction: Functions? = null
+    private var oldValue: String? = null
 
     companion object {
         private const val TAG = "MovieApp"
@@ -64,14 +65,27 @@ class MainActivity : AppCompatActivity() {
         val value: String = button.text.toString()
         this.tvResult?.let { tvResult ->
             try {
-                val newResult: String = tvResult.text.toString() + value
-                val value: String = if (newResult.contains(".")) {
-                    newResult.toFloat()
-                } else {
-                    newResult.toInt()
-                }.toString()
+                if (this.lastFunction != null) {
+                    this.oldValue = tvResult.text.toString()
+                    this.lastFunction = null
 
-                tvResult.text = value
+                    val value: String = if (value.contains(".")) {
+                        value.toFloat()
+                    } else {
+                        value.toInt()
+                    }.toString()
+
+                    tvResult.text = value
+                } else {
+                    val newResult: String = tvResult.text.toString() + value
+                    val value: String = if (newResult.contains(".")) {
+                        newResult.toFloat()
+                    } else {
+                        newResult.toInt()
+                    }.toString()
+
+                    tvResult.text = value
+                }
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }
@@ -80,6 +94,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun onFunctionClicked(button: Button) {
         Log.d(TAG, "Function button clicked: ${button.text}")
+
+        val oldLastFunction = this.lastFunction
 
         this.lastFunction = when (button.id) {
             R.id.btn_mult -> Functions.MULTIPLY
@@ -90,10 +106,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         Log.d(TAG, "Last function is: $lastFunction")
+        this.tvResult?.let { tvResult ->
+            Toast.makeText(this, this.lastFunction?.name ?: "", Toast.LENGTH_SHORT).show()
+        }
+
+        if (this.lastFunction == Functions.EQUAL) {
+            when (oldLastFunction) {
+                Functions.SUM -> sum()
+            }
+        }
     }
 
-    private fun sum(leftValue: Int, rightValue: Int): Int {
-        return leftValue + rightValue
+    private fun sum() {
+        this.oldValue?.let { oldValue ->
+            this.tvResult?.text?.toString()?.let { newValue ->
+                val result = oldValue.toFloat() + newValue.toFloat()
+                this.tvResult?.setText(result.toString())
+            }
+        }
     }
 
     override fun onBackPressed() {
