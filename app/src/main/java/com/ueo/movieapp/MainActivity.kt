@@ -55,10 +55,51 @@ class MainActivity : AppCompatActivity() {
     private fun onNumberClick(button: Button) {
         // .getText() or .text are identical
         Log.d("MovieApp", "Button pressed: ${button.text}")
+
+        val value: String = button.text.toString()
+        this.tvResult?.let { tvResult ->
+            try {
+                val newResult: String = tvResult.text.toString() + value
+                val value: String = if (newResult.contains(".")) {
+                    newResult.toFloat()
+                } else {
+                    newResult.toInt()
+                }.toString()
+
+                tvResult.text = value
+            } catch (exception: Exception) {
+                exception.printStackTrace()
+            }
+        }
     }
 
     private fun onFunctionClicked(button: Button) {
         Log.d("MovieApp", "Function button clicked: ${button.text}")
+    }
+
+    private fun sum(leftValue: Int, rightValue: Int): Int {
+        return leftValue + rightValue
+    }
+
+    override fun onBackPressed() {
+        // super.onBackPressed()
+
+        this.tvResult?.let { tvResult ->
+            val text: String = tvResult.text.toString()
+
+            if (text.isEmpty()) {
+                super.onBackPressed()
+            } else {
+                // [a, b, c, 1, 2, 3]
+                // [0, 1, 2, 3, 4, 5]
+                // abc123 -> abc12
+                //
+
+                text.substring(0, text.length - 1).let { newText ->
+                    tvResult.setText(newText)
+                }
+            }
+        }
     }
 
     override fun onPause() {
