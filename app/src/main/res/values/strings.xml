@@ -3,5 +3,8 @@
     <string name="app_name">MovieApp</string>
 
     <string name="login">Login</string>
+    <string name="email_mismatch">E-mail mismatch!</string>
+    <string name="invalid_email_address">Invalid email address!</string>
+    <string name="invalid_password">Invalid password</string>
 
 </resources>
