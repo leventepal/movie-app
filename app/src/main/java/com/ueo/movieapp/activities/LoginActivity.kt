@@ -1,5 +1,6 @@
 package com.ueo.movieapp.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -36,7 +37,8 @@ class LoginActivity : AppCompatActivity() {
 
         App.instance.database.userDao().let { dao ->
             dao.login(email, password)?.let {
-                Toast.makeText(this, "User found", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MovieActivity::class.java))
+                finish()
             } ?: kotlin.run {
                 Toast.makeText(this, "User NOT found", Toast.LENGTH_SHORT).show()
             }

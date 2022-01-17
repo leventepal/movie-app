@@ -15,16 +15,17 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         val action = Runnable {
-            App.instance.database.let { db ->
-                val users = db.userDao().getAll()
+//            App.instance.database.let { db ->
+//                val users = db.userDao().getAll()
+//
+//                if (users.isEmpty()) {
+//                    startActivity(Intent(this, RegisterActivity::class.java))
+//                } else {
+//                    startActivity(Intent(this, LoginActivity::class.java))
+//                }
+//            }
 
-                if (users.isEmpty()) {
-                    startActivity(Intent(this, RegisterActivity::class.java))
-                } else {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-            }
-
+            startActivity(Intent(this, MovieActivity::class.java))
 
             finish()
         }
